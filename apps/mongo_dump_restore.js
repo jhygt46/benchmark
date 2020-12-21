@@ -37,7 +37,7 @@ function mongorestore(backup){
 }
 
 setTimeout(()=>{
-    mongodump();
+    mongorestore('/var/node/mongodump-2011-10-24');
 }, 2000)
 
 
