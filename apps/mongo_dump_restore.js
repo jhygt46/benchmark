@@ -21,7 +21,7 @@ function mongodump(){
     });
     mongodump.on('exit', function (code) {
       console.log('mongodump exited with code ' + code);
-      mongorestore(file);
+      mongorestore();
     });
 }
 async function mongorestore(){
@@ -33,7 +33,7 @@ async function mongorestore(){
 }
 
 setTimeout(()=>{
-    mongorestore();
+    mongodump();
 }, 2000)
 
 
