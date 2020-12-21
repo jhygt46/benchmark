@@ -24,7 +24,7 @@ function mongodump(){
     });
 }
 function mongorestore(backup){
-    var mongorestore = spawn('mongorestore ${backup}/');
+    var mongorestore = spawn('mongorestore /var/node/mongodump-2011-10-2');
     mongorestore.stdout.on('data', function (data) {
         console.log('stdout: ' + data);
     });
