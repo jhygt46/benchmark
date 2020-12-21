@@ -26,6 +26,7 @@ function mongodump(){
 }
 function mongorestore(backup){
     restore({
+        uri: 'mongodb://localhost:27017/test',
         root: backup,
         callback: function(){
             console.log("RESTORE OK");
