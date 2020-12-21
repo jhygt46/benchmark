@@ -10,7 +10,7 @@ mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: t
 
 setTimeout(()=>{
     var args = ['--host', '34.121.247.48:27017', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', '/var/node/mongodump-2011-10-24'];
-    var mongodump = spawn('/usr/local/bin/mongodump', args);
+    var mongodump = spawn('mongodump', args);
     mongodump.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
     });
