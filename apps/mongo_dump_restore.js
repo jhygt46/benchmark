@@ -1,7 +1,7 @@
 var app = require('http').createServer(serverfunc);
 app.listen(80, () => { console.log("RUNNING 81") });
 
-var spawn = require('child_process').spawn;
+var { spawn, exec } = require('child_process');
 const mongodb = require('mongodb');
 const restore = require('mongodb-restore-dump');
 var uri = 'mongodb://localhost:27017';
@@ -15,9 +15,9 @@ const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/tes
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
 
 function mongodump(){
+    
     var file = '/var/node/mongodump-2011-10-24';
-    //var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
-    var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--archive', '/var/node/backupFileName.gz --gzip'];
+    var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
     
     var mongodump = spawn('mongodump', args);
     mongodump.stdout.on('data', function (data) {
@@ -30,6 +30,7 @@ function mongodump(){
       console.log('mongodump exited with code ' + code);
       //mongorestore();
     });
+
 }
 async function mongorestore(){
     spawn('mongorestore --uri="mongodb://localhost:27017/" /var/node/mongodump-2011-10-24');
@@ -37,7 +38,16 @@ async function mongorestore(){
 
 setTimeout(()=>{
 
-    mongodump();
+    var backupDB = exec('mongodump --host=34.121.247.48 --port=27017 --username=myTester --password=buenanelson --db=test --collection=hola --archive=/var/node/benchmark/resp.gz  --gzip');
+    backupDB.stdout.on('data',function(data){
+        console.log('stdout: ' + data);// process output will be displayed here
+    });
+    backupDB.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+    });
+    backupDB.on('exit', function (code) {
+        console.log('mongodump exited with code ' + code);
+    });
 
 }, 2000)
 
