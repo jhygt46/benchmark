@@ -3,6 +3,7 @@ app.listen(80, () => { console.log("RUNNING 81") });
 
 var spawn = require('child_process').spawn;
 const mongodb = require('mongodb');
+var restore = require('mongodb-restore');
 
 var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
@@ -24,15 +25,11 @@ function mongodump(){
     });
 }
 function mongorestore(backup){
-    var mongorestore = spawn('mongorestore /var/node/mongodump-2011-10-2');
-    mongorestore.stdout.on('data', function (data) {
-        console.log('stdout: ' + data);
-    });
-    mongorestore.stderr.on('data', function (data) {
-        console.log('stderr: ' + data);
-    });
-    mongorestore.on('exit', function (code) {
-        console.log('mongorestore exited with code ' + code);
+    restore({
+        root: backup,
+        callback: function(){
+            console.log("RESTORE OK");
+        }
     });
 }
 
