@@ -16,7 +16,9 @@ mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: t
 
 function mongodump(){
     var file = '/var/node/mongodump-2011-10-24';
-    var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
+    //var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
+    var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--archive', '/var/node/backupFileName.gz', '--gzip'];
+    
     var mongodump = spawn('mongodump', args);
     mongodump.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
@@ -35,7 +37,7 @@ async function mongorestore(){
 
 setTimeout(()=>{
 
-    mongorestore();
+    mongodump();
 
 }, 2000)
 
