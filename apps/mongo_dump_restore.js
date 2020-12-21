@@ -28,7 +28,7 @@ function mongodump(){
     });
     mongodump.on('exit', function (code) {
       console.log('mongodump exited with code ' + code);
-      mongorestore();
+      //mongorestore();
     });
 }
 async function mongorestore(){
