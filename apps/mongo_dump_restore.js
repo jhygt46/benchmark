@@ -38,17 +38,31 @@ async function mongorestore(){
 }
 
 setTimeout(()=>{
+
+    mongoTools.mongodump({ 
+        db: 'test',
+        path: '/var/node/mongodump-2011-10-25',
+        host: '34.121.247.48',
+        port: '27017',
+        userName: 'myTester', 
+        password: 'buenanelson', 
+        authenticationDatabase: 'admin'
+    })
+    .then((success) => console.info("success", success) )
+    .catch((err) => console.error("error", err) );
+    /*
     mongoTools.mongorestore({ 
-        dumpPath:'/var/node/mongodump-2011-10-24',
+        dumpPath:'/var/node/mongodump-2011-10-25',
         uri: 'mongodb://localhost:27017'
-     })
-     .then((success) => {
+    })
+    .then((success) => {
        console.info("success", success.message);
        if (success.stderr) {
          console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
        }
-     })
-     .catch((err) => console.error("error", err) );
+    })
+    .catch((err) => console.error("error", err) );
+    */
 }, 2000)
 
 
