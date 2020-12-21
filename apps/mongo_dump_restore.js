@@ -3,7 +3,8 @@ app.listen(80, () => { console.log("RUNNING 81") });
 
 var spawn = require('child_process').spawn;
 const mongodb = require('mongodb');
-const restore = require('mongodb-restore-dump'), uri = 'mongodb://127.0.0.1:27001/';
+const restore = require('mongodb-restore-dump');
+var uri = 'mongodb://localhost:27017';
 
 var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
