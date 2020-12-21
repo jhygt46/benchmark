@@ -45,8 +45,7 @@ setTimeout(()=>{
         host: '34.121.247.48',
         port: '27017',
         userName: 'myTester', 
-        password: 'buenanelson', 
-        authenticationDatabase: 'admin'
+        password: 'buenanelson'
     })
     .then((success) => console.info("success", success) )
     .catch((err) => console.error("error", err) );
