@@ -13,7 +13,7 @@ async function serverfunc(req, res){
     var url = req.url.split("/");
     if(req.method === 'GET'){
         if(url[1] == ""){
-            console.log(await db.getCollection("hola").find({}));
+            console.log(await db.collection("hola").find({}));
             res.end("");
         }
     }
