@@ -33,7 +33,7 @@ async function mongorestore(){
 }
 
 setTimeout(()=>{
-    mongodump();
+    mongorestore();
 }, 2000)
 
 
