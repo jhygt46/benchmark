@@ -54,7 +54,7 @@ function mongorestore(ruta){
         if(success.stderr){
             console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
         }
-        fs.unlink(ruta);
+        fs.unlinkSync(ruta);
     })
     .catch((err) => console.error("error", err) );
 }
