@@ -25,11 +25,11 @@ function mongodump(){
     });
 }
 async function mongorestore(){
-    await restore.database({
+    console.log(await restore.database({
         uri,
         database: 'test',
         from: '/var/node/mongodump-2011-10-24'
-    });
+    }));
 }
 
 setTimeout(()=>{
