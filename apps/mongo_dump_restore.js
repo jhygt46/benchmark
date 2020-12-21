@@ -8,8 +8,9 @@ var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
 
-setTimeout(()=>{
-    var args = ['--host', '34.121.247.48:27017', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', '/var/node/mongodump-2011-10-24'];
+function mongodump(){
+    var file = '/var/node/mongodump-2011-10-24';
+    var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
     var mongodump = spawn('mongodump', args);
     mongodump.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
@@ -19,7 +20,24 @@ setTimeout(()=>{
     });
     mongodump.on('exit', function (code) {
       console.log('mongodump exited with code ' + code);
+      mongorestore(file);
     });
+}
+function mongorestore(backup){
+    var mongorestore = spawn('mongorestore '+backup);
+    mongorestore.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+    });
+    mongorestore.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+    });
+    mongorestore.on('exit', function (code) {
+        console.log('mongorestore exited with code ' + code);
+    });
+}
+
+setTimeout(()=>{
+    mongodump();
 }, 2000)
 
 
