@@ -16,6 +16,8 @@ mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: t
 
 function mongodump(){
     
+    /*
+    // OPCION 1 SPAW AND ARGS
     var file = '/var/node/mongodump-2011-10-24';
     var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
     
@@ -31,12 +33,7 @@ function mongodump(){
       //mongorestore();
     });
 
-}
-async function mongorestore(){
-    spawn('mongorestore --uri="mongodb://localhost:27017/" /var/node/mongodump-2011-10-24');
-}
-
-setTimeout(()=>{
+    // OPCION 2 EXEC
 
     var backupDB = exec('mongodump --host=34.121.247.48 --port=27017 --username=myTester --password=buenanelson --db=test --collection=hola --archive=/var/node/benchmark/resp.gz  --gzip');
     backupDB.stdout.on('data',function(data){
@@ -48,6 +45,27 @@ setTimeout(()=>{
     backupDB.on('exit', function (code) {
         console.log('mongodump exited with code ' + code);
     });
+
+    */
+
+}
+async function mongorestore(){
+    spawn('mongorestore --uri="mongodb://localhost:27017/" /var/node/mongodump-2011-10-24');
+}
+
+setTimeout(()=>{
+
+    mongoTools.mongorestore({ 
+        dumpPath: '/var/node/benchmark/resp.gz',
+        uri: 'mongodb://localhost:27017'
+    })
+    .then((success) => {
+       console.info("success", success.message);
+       if (success.stderr) {
+         console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
+       }
+    })
+    .catch((err) => console.error("error", err) );
 
 }, 2000)
 
