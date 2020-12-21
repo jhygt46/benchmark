@@ -24,7 +24,7 @@ function mongodump(){
       mongorestore(file);
     });
 }
-function mongorestore(){
+async function mongorestore(){
     await restore.database({
         uri,
         database: 'test',
