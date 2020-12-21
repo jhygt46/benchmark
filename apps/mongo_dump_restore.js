@@ -39,16 +39,12 @@ async function mongorestore(){
 
 setTimeout(()=>{
 
-    mongoTools.mongodump({ 
-        db: 'test',
-        path: '/var/node/mongodump-2011-10-25',
-        host: '34.121.247.48',
-        port: '27017',
-        userName: 'myTester', 
-        password: 'buenanelson'
-    })
-    .then((success) => console.info("success", success) )
-    .catch((err) => console.error("error", err) );
+    var restore = require('mongodb-restore');
+
+    restore({
+        uri: 'mongodb://localhost:27017/test',
+        root: '/var/node/mongodump-2011-10-24'
+    });
     /*
     mongoTools.mongorestore({ 
         dumpPath:'/var/node/mongodump-2011-10-25',
