@@ -3,7 +3,7 @@ app.listen(80, () => { console.log("RUNNING 81") });
 
 var spawn = require('child_process').spawn;
 const mongodb = require('mongodb');
-var restore = require('mongodb-restore');
+const restore = require('mongodb-restore-dump'), uri = 'mongodb://127.0.0.1:27001/';
 
 var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
@@ -24,18 +24,16 @@ function mongodump(){
       mongorestore(file);
     });
 }
-function mongorestore(backup){
-    restore({
-        uri: 'mongodb://localhost:27017/test',
-        root: backup,
-        callback: function(){
-            console.log("RESTORE OK");
-        }
+function mongorestore(){
+    await restore.database({
+        uri,
+        database: 'test',
+        from: '/var/node/mongodump-2011-10-24'
     });
 }
 
 setTimeout(()=>{
-    mongorestore('/var/node/mongodump-2011-10-24');
+    mongorestore();
 }, 2000)
 
 
