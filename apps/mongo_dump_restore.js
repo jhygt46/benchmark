@@ -24,7 +24,7 @@ function mongodump(){
     });
 }
 function mongorestore(backup){
-    var mongorestore = spawn('mongorestore '+backup);
+    var mongorestore = spawn('mongorestore ${backup}/');
     mongorestore.stdout.on('data', function (data) {
         console.log('stdout: ' + data);
     });
