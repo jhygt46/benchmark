@@ -6,6 +6,10 @@ const mongodb = require('mongodb');
 const restore = require('mongodb-restore-dump');
 var uri = 'mongodb://localhost:27017';
 
+var mongoTools = require("node-mongotools");
+
+
+
 var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
@@ -34,7 +38,17 @@ async function mongorestore(){
 }
 
 setTimeout(()=>{
-    mongorestore();
+    mongoTools.mongorestore({ 
+        dumpPath:'/var/node/mongodump-2011-10-24',
+        uri: 'mongodb://localhost:27017'
+     })
+     .then((success) => {
+       console.info("success", success.message);
+       if (success.stderr) {
+         console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
+       }
+     })
+     .catch((err) => console.error("error", err) );
 }, 2000)
 
 
