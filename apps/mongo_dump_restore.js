@@ -30,34 +30,13 @@ function mongodump(){
     });
 }
 async function mongorestore(){
-    console.log(await restore.database({
-        uri,
-        database: 'test',
-        from: '/var/node/mongodump-2011-10-24'
-    }));
+    spawn('mongorestore --uri="mongodb://localhost:27017/" /var/node/mongodump-2011-10-24');
 }
 
 setTimeout(()=>{
 
-    var restore = require('mongodb-restore');
+    mongorestore();
 
-    restore({
-        uri: 'mongodb://localhost:27017/test',
-        root: '/var/node/mongodump-2011-10-24'
-    });
-    /*
-    mongoTools.mongorestore({ 
-        dumpPath:'/var/node/mongodump-2011-10-25',
-        uri: 'mongodb://localhost:27017'
-    })
-    .then((success) => {
-       console.info("success", success.message);
-       if (success.stderr) {
-         console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
-       }
-    })
-    .catch((err) => console.error("error", err) );
-    */
 }, 2000)
 
 
