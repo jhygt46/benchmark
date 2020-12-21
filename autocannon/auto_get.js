@@ -8,7 +8,7 @@ async function init(){
         connections: 10,
         duration: 5,
         method: 'GET',
-        pipelining: 8
+        pipelining: 4
     });
 
     autocannon.track(instance, {renderProgressBar: true});

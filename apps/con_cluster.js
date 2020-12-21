@@ -3,6 +3,13 @@ const app = require('http');
 const numCPUs = require('os').cpus().length;
 const port = 80;
 
+const mongodb = require('mongodb');
+
+var db;
+const connectionString = 'mongodb://localhost:27017/allin';
+mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
+
+
 if(cluster.isMaster){
 
     console.log(`Master ${process.pid} is running`);

@@ -4,19 +4,16 @@ app.listen(80, () => { console.log("RUNNING 81") });
 const mongodb = require('mongodb');
 
 var db;
-const connectionString = 'mongodb://localhost:27017/allin';
+const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
 
 
-function serverfunc(req, res){
+async function serverfunc(req, res){
     res.writeHead(200, { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST', 'Content-Type': 'application/json' });
     var url = req.url.split("/");
     if(req.method === 'GET'){
         if(url[1] == ""){
-            var times = 10000000;
-            while(times > 0){
-                --times;
-            }
+            console.log(await db.getCollection("hola").find({}));
             res.end("");
         }
     }
