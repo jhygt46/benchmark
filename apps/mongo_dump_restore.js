@@ -12,29 +12,11 @@ var db;
 const connectionString = 'mongodb://myTester:buenanelson@34.121.247.48:27017/test';
 mongodb.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { db = client.db() });
 
-/*
-// OPCION 1 SPAW AND ARGS
-var file = '/var/node/mongodump-2011-10-24';
-var args = ['--host', '34.121.247.48', '--username', 'myTester', '--password', 'buenanelson', '--port', '27017', '--db', 'test', '--collection', 'hola', '--out', file];
-
-var mongodump = spawn('mongodump', args);
-mongodump.stdout.on('data', function (data) {
-    console.log('stdout: ' + data);
-});
-mongodump.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
-});
-mongodump.on('exit', function (code) {
-    console.log('mongodump exited with code ' + code);
-    //mongorestore();
-});
-*/
-
 function mongodump(){
     var file = '/var/node/benchmark/resp.gz';
     var backupDB = exec('mongodump --host=34.121.247.48 --port=27017 --username=myTester --password=buenanelson --db=test --collection=hola --archive='+file+'  --gzip');
     backupDB.stdout.on('data',function(data){
-        console.log('stdout: ' + data);// process output will be displayed here
+        console.log('stdout: ' + data);
     });
     backupDB.stderr.on('data', function (data) {
         console.log('stderr: ' + data);
@@ -52,16 +34,14 @@ function mongorestore(ruta){
     .then((success) => {
         console.info("success", success.message);
         if(success.stderr){
-            console.info("stderr:\n", success.stderr);// mongorestore binary write details on stderr
+            console.info("stderr:\n", success.stderr);
         }
         fs.unlinkSync(ruta);
     })
     .catch((err) => console.error("error", err) );
 }
+mongodump();
 
-setTimeout(()=>{
-    mongodump();
-}, 2000)
 
 
 async function serverfunc(req, res){
